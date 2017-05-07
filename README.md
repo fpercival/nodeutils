@@ -3,7 +3,7 @@ My node helpers
 
 ## Install
 
-    npm install https://github.com/fpercival/nodeutils.git
+    npm i --save https://github.com/fpercival/nodeutils.git
 
 ## Usage
 
