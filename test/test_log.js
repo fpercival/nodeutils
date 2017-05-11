@@ -45,6 +45,28 @@ describe('log', function() {
     tstFunc(L, 'create');
     tstFunc(L, 'createHook');
 
+    it('should get loggers', function(){
+        let count=0;
+
+        L.create('logger:1');
+        L.create('logger:2');
+        L.create('logger:3');
+        L.create('logger:4');
+
+        L.get(/logger.+/, function(lgr){
+            count++;
+        });
+
+        L.get('logger:1', function(lgr){
+            count++;
+        });
+
+        assert.equal(count, 5);
+
+        assert.equal( L.get(/logger.+/).length, 4);
+        assert.ok( L.get('logger:1') );
+    });
+
 
     describe('scope logger', function(){
         let S = L.create('test');

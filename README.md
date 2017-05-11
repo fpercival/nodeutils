@@ -60,48 +60,65 @@ Signature: nextr( items, eachFunc, doneFunc )
 ### log
 A scoped logger that can filtered globally or within each scope.
 
-Global logger
+#### Global logger
 
 The global logger emits events for messages based on level.
 
-    let log = require('nodeutils').log;
+    let logger = require('nodeutils').log;
 
     function toConsole(){ console.log.apply(console, arguments); };
 
-    log.on('debug', toConsole );
-    log.on('warn', toConsole );
-    log.on('info', toConsole );
-    log.on('error', toConsole );
+    logger.on('debug', toConsole );
+    logger.on('warn', toConsole );
+    logger.on('info', toConsole );
+    logger.on('error', toConsole );
 
-Scoped logger
+#### Scoped logger
 
-    let log1 = log.create('log:scope1');
+    let log1 = logger.create('log:scope1');
     log1.debug('debug info');
     log1.warn('Watch out !!');
     log1.info('FYI');
     log1.error('Something went wrong', new Error('oops') );
 
-Set logging level
+#### Set logging level
 
 Log level can be set globally or seperately per scope. Default level is 'debug'
 
-    log.setLevel('debug');  // emits debug, warn, info & error
-    log.setLevel('warn');  // emits warn, info & error
-    log.setLevel('info');  // emits info & error
-    log.setLevel('error');  // emits error
-    log.setLevel('none');  // emits no messages
+    logger.setLevel('debug');  // emits debug, warn, info & error
+    logger.setLevel('warn');  // emits warn, info & error
+    logger.setLevel('info');  // emits info & error
+    logger.setLevel('error');  // emits error
+    logger.setLevel('none');  // emits no messages
 
-Filtering
+#### Filtering
 
 Messages can be filtered based on the scope name.
 
-    let log1 = log.create('log:scope1');
-    let log2 = log.create('log:scope2');
+    let log1 = logger.create('log:scope1');
+    let log2 = logger.create('log:scope2');
 
     // Using a wildcard
-    log.setFilter('log:*'); // Will emit messages from log1 & log2
-    log.setFilter('*scope2'); // Will only emit messages from log2
+    logger.setFilter('log:*'); // Will emit messages from log1 & log2
+    logger.setFilter('*scope2'); // Will only emit messages from log2
 
+#### Accessing
+
+Scope loggers can be accessed from the global logger by name.
+
+     logger.get( 'log:scope1' ,
+        scopeLogger => {
+            acopeLogger.setFilter('*');
+        }
+     );
+
+ or using a regular expression
+
+     logger.get( /log.*/i ,
+        scopeLogger => {
+            acopeLogger.setFilter('*');
+        }
+     );
 
 
 
