@@ -27,6 +27,7 @@ describe('extend', function() {
         extend(a, b);
         assert.equal(a.b.c, 5);
         assert.equal(a.b.d.e, 10);
+        assert.equal(JSON.stringify(b).indexOf('__deepcop'), -1);
     });
 
     it('should override deep', function(){
